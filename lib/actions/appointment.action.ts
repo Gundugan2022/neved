@@ -3,8 +3,8 @@
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
-import { databases, DATABASE_ID, APPOINTMENT_COLLECTION_ID } from "../appwrite.conifg";
-import { parseStringify } from "../utils";
+import { databases, DATABASE_ID, APPOINTMENT_COLLECTION_ID, messaging } from "../appwrite.conifg";
+import { formatDateTime, parseStringify } from "../utils";
 
 export const createAppointment = async (appointment: CreateAppointmentParams) => {
     try {
@@ -47,7 +47,7 @@ export const getRecentAppointmentList = async () => {
       scheduledCount: 0,
       pendingCount: 0,
       cancelledCount: 0
-    }
+    };
     const counts = (appointments.documents as Appointment[]).reduce((acc, appointment) => {
       if (appointment.status === 'scheduled') {
         acc.scheduledCount += 1;
@@ -85,7 +85,13 @@ export const updateAppointment = async ({appointmentId, userId, appointment, typ
      throw new Error('Appointment not found');
    }
 
-   // SMS notification
+    const smsMessage = `Hi, it's Neved. 
+    ${type === 'schedule' ? `Your appointment has been scheduled for ${formatDateTime(appointment.schedule!).dateTime} with Dr. ${appointment.primaryPhysician}.`: 
+    `We regret to inform you that your appointment has been cancelled for the following reason: ${appointment.cancellationReason}`
+  }
+    `
+
+    await sendSMSNotification(userId, smsMessage);
 
    revalidatePath('/admin');
 
@@ -93,4 +99,20 @@ export const updateAppointment = async ({appointmentId, userId, appointment, typ
   } catch(error) {
     console.log(error)
   }
+}
+
+export const sendSMSNotification = async (userId: string, content: string) => {
+  try{
+   const message = await messaging.createSms(
+    ID.unique(),
+    content,
+    [],
+    [userId]
+   )
+
+   return parseStringify(message)
+  }  catch (error) {
+    console.log(error)
+  }
+  
 }

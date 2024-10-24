@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation"
 import { Doctors } from "@/constants"
 import { SelectItem } from "../ui/select"
 import Image from "next/image" 
-import { createAppointment } from "@/lib/actions/appointment.action"
+import { createAppointment, updateAppointment } from "@/lib/actions/appointment.action"
 import { Appointment } from "@/types/appwrite.types"
 
 
@@ -38,10 +38,10 @@ import { Appointment } from "@/types/appwrite.types"
       resolver: zodResolver(AppointmentFormValidation),
       defaultValues: {
         primaryPhysician: appointment ? appointment.primaryPhysician : '',
-        schedule: appointment ? new Date(appointment.schedule) : new Date(),
+        schedule: appointment ? new Date(appointment?.schedule) : new Date(Date.now()),
         reason: appointment ? appointment.reason : '',
-        note: appointment ? appointment.note : '',
-        cancellationReason: appointment ? appointment.cancellationReason : '',
+        note: appointment?.note || '',
+        cancellationReason: appointment?.cancellationReason || '',
       },
     });
   

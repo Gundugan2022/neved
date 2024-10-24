@@ -33,12 +33,12 @@ const Admin = async () => {
           <p className="text-dark-700">Start the day with managing new appointment.</p>
         </section>
 
-        <section className="admin-start">
+        <section className="admin-stat">
           <StatCard
             type='appointments'
             count={appointments.scheduledCount}
             label='Scheduled appointments'
-            icon='/assets/icons/appontments.svg'
+            icon='/assets/icons/appointments.svg'
           />
           <StatCard
             type='pending'
@@ -50,7 +50,7 @@ const Admin = async () => {
             type='cancelled'
             count={appointments.cancelledCount}
             label='Cancelled appointments'
-            icon='/assets/icons/canelled.svg'
+            icon='/assets/icons/cancelled.svg'
           />
         </section>
 

@@ -1,11 +1,8 @@
 "use client"
 
+
+
 import {  ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-
-
 import StatusBadge from "../StatusBadge"
 import { formatDateTime } from "@/lib/utils"
 import Image from "next/image"
@@ -30,12 +27,12 @@ export const columns: ColumnDef<Appointment>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({row}) => {
+    cell: ({row}) => (
       <div className="min-w-[115px]">
         <StatusBadge status={row.original.status}/>
       </div>
 
-    }
+    )
   },
 
   {
