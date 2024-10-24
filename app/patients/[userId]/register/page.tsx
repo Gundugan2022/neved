@@ -1,8 +1,7 @@
 import RegisterForm from '@/components/forms/RegisterForm'
 import Image from 'next/image'
 import React from 'react'
-import { redirect } from "next/navigation";
-import { getPatient, getUser } from "@/lib/actions/patient.action";
+import {  getUser } from "@/lib/actions/patient.action";
 import * as Sentry from '@sentry/nextjs'
 
 const Register = async ({params: {userId}}: SearchParamProps) => {
