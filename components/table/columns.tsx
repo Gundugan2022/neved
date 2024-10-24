@@ -53,15 +53,15 @@ export const columns: ColumnDef<Appointment>[] = [
       
       return (
         <div className='flex items-center gap-3 '>
-          <Image src={doctor?.image}
-           alt={doctor.name}
+          <Image src={doctor?.image!}
+           alt='doctor'
            width={100}
            height={100}
            className='size-8'
           />
            
            <p className="whitespace-nowrap">
-            Dr. {doctor.name}
+            Dr. {doctor?.name}
            </p>
 
         </div>
